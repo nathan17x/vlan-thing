@@ -1,0 +1,9 @@
+services:
+  pb:
+    container_name: vtv3-pb
+    build:
+      context: ./pb
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./pb/data:/pb/pb_data
