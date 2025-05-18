@@ -40,8 +40,3 @@ export default async function getCiscoEntityTable(session, maxRepetitions){
     session.subtree(oid, maxRepetitions, feedCb, doneCb);
   })
 }
-
-// const session = snmp.createSession("10.49.69.206", "public");
-// const out = await getCiscoEntityTable(session, 50)
-
-// console.log(out)
