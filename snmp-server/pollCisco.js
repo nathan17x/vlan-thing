@@ -1,5 +1,6 @@
 import snmp from 'net-snmp';
 import getCiscoEntityTable from './getCiscoEntityTable.js';
+import chalk from 'chalk';
 
 function getOidValue(session, oid) {
   return new Promise((resolve, reject) => {
@@ -18,6 +19,14 @@ function getOidValue(session, oid) {
   });
 }
 
+function getCiscoEntitySensorValueOID(physicalNameOID){
+  const last = physicalNameOID.split('.').pop()
+  const valueOID = `1.3.6.1.4.1.9.9.91.1.1.1.1.4.${last}`
+  
+  // console.log(chalk.red(`Turning ${physicalNameOID} into ${valueOID}`))
+  return valueOID
+}
+
 async function getIfStats(session, interfaceNumber, ciscoEntityTable){
   const paddedIndex = `${(interfaceNumber + 10100).toString()}`
   const ifOIDs = [
@@ -29,8 +38,8 @@ async function getIfStats(session, interfaceNumber, ciscoEntityTable){
     { oid: `1.3.6.1.2.1.2.2.1.9.${paddedIndex}`, desc: "ifLastChange" },
     { oid: `1.3.6.1.2.1.31.1.1.1.18.${paddedIndex}`, desc: "ifAlias" },
     { oid: `1.3.6.1.4.1.9.9.68.1.2.2.1.2.${paddedIndex}`, desc: "vmVlan" },
-
   ];
+
 
   const initialResults = await Promise.all(
     ifOIDs.map(({ oid, desc }) => getOidValue(session, oid).then(value => ({
@@ -46,7 +55,7 @@ async function getIfStats(session, interfaceNumber, ciscoEntityTable){
   });
 
   const entitySensorResults = await Promise.all(
-    entitySensorOIDs.map(({ oid, desc }) => getOidValue(session, oid).then(value => ({
+    entitySensorOIDs.map(({ oid, desc }) => getOidValue(session, getCiscoEntitySensorValueOID(oid)).then(value => ({
       desc,
       value,
     })))

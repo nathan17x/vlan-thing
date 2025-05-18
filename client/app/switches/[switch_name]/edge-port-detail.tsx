@@ -9,7 +9,7 @@ export default function EdgePortDetail( edgePort: SwitchPort) {
           {edgePort.port_number}
         </div>
         <div className="flex flex-row justify-center flex-1">
-          {getPortStatusIcon(edgePort.ifOperStatus)}
+          {getPortStatusIcon(edgePort.ifOperStatus, edgePort.ifAdminStatus)}
         </div>
       </div>
       <div className="bg-card w-full py-1 max-w-16 flex flex-col items-center justify-center">

@@ -1,5 +1,5 @@
 import { SwitchPort } from "@/lib/global";
-import { getPortStatusIcon } from "@/lib/utils";
+import { getUplinkPortStatusIcon } from "@/lib/utils";
 
 export default function UplinkPortDetail({ uplinkPort }:{ uplinkPort: SwitchPort }) {
   return (
@@ -8,15 +8,27 @@ export default function UplinkPortDetail({ uplinkPort }:{ uplinkPort: SwitchPort
         Uplink {uplinkPort.port_number}
       </div>
       <div>
-        {getPortStatusIcon(uplinkPort.status)}
+        {getUplinkPortStatusIcon(uplinkPort.ifOperStatus)}
       </div>
-      <div className="bg-secondary p-2 rounded-sm min-w-16">
+      <div className="bg-secondary p-2 rounded-sm min-w-20">
         <p className="text-xs">Rx</p>
-        {uplinkPort.rx_power}
+        <p>
+          {
+            (uplinkPort?.rxPower != null && uplinkPort.ifOperStatus != 2) 
+              ? `${uplinkPort.rxPower / 10}db`
+              : '---'
+          }
+        </p>   
       </div>
-      <div className="bg-secondary p-2 rounded-sm min-w-16">
+      <div className="bg-secondary p-2 rounded-sm min-w-20">
         <p className="text-xs">Tx</p>
-        {uplinkPort.tx_power}
+        <p>
+          {
+            (uplinkPort?.txPower != null && uplinkPort.ifOperStatus != 2) 
+              ? `${uplinkPort.txPower / 10}db`
+              : '---'
+          }
+        </p>    
       </div>
     </div>
   )

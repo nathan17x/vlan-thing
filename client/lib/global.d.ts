@@ -8,6 +8,7 @@ export interface ExternalSwitch extends RecordModel {
   uplink_port_assignment: number[];
   edge_ports: SwitchPort[];
   uplink_ports: SwitchPort[];
+  switch_up: boolean;
 }
 
 export interface SwitchPort {
@@ -20,8 +21,9 @@ export interface SwitchPort {
   ifAlias: string,
   vmVlan: number,
   port_number: number
-  transceiver_temperature: number | null;
-  transceiver_voltage: number | null;
-  transceiver_tx_power: number | null;
-  transceiver_rx_power: number | null;
+  sfpTemp: number | null;
+  sfpVoltage: number | null;
+  sfpBiasCurrent: number | null;
+  txPower: number | null;
+  rxPower: number | null;
 }

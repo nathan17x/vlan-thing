@@ -1,7 +1,7 @@
 import snmp from 'net-snmp';
 import chalk from 'chalk';
 import pollCisco from './pollCisco.js';
-import writeToDB from './writeToDB.js';
+import writeToDB, { setSwitchDown, setSwitchUp } from './writeToDB.js';
 import dotenv from 'dotenv';
 
 dotenv.config()
@@ -32,6 +32,8 @@ const callback = function (error, notification) {
     } else {
       console.log(`${deviceAddress} - Received something else`)
     }
+    resetSwitchDownTimer(notification.rinfo.address)
+    setSwitchUp(notification.rinfo.address)
   }
 };
 
@@ -42,6 +44,8 @@ const authorizer = receiver.getAuthorizer();
 authorizer.addCommunity("public")
 
 console.log("Listening for traps... ")
+
+const switchDownTimers = {};
 
 function isCiscoLinkTrap(notification){
   if (notification.pdu.type !== 167) return false;
@@ -68,5 +72,12 @@ function isCiscoConfigWriteTrap(notification){
 async function pollDeviceAndWriteToDB(deviceAddress){
   console.log(`Polling ${deviceAddress}... `)
   const ciscoPollResult = await pollCisco(deviceAddress, "public")
-  writeToDB(ciscoPollResult, process.env.PB_URL)
+  writeToDB(ciscoPollResult)
 }
+
+
+async function resetSwitchDownTimer(switch_address) {
+  if (switchDownTimers[switch_address]) clearTimeout(switchDownTimers[switch_address]);
+  switchDownTimers[switch_address] = setTimeout(() => setSwitchDown(switch_address), 60 * 1000);
+}
+
