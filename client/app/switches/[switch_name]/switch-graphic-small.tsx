@@ -1,7 +1,6 @@
 "use client"
 
 import { ExternalSwitch } from "@/lib/global"
-import { getPortStatusColor } from "@/lib/utils"
 import EdgePortSmall from "./edge-port-small";
 
 export default function SwitchGraphicSmall(

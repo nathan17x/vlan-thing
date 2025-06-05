@@ -7,3 +7,10 @@ services:
       - "8080:8080"
     volumes:
       - ./pb/data:/pb/pb_data
+  snmp-server:
+    container_name: snmp-server
+    build: 
+      context: ./snmp-server
+    ports:
+      - "162:162"
+

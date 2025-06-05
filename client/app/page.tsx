@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { pb } from "@/lib/pb";
 import { ExternalSwitch } from "@/lib/global";
-import { CircleCheck, CircleCheckBig, CircleX } from "lucide-react";
+import { CircleCheck, CircleX } from "lucide-react";
 
 export default function Page() {
   const [switches, setSwitches] = useState<ExternalSwitch[]>([]);
@@ -40,8 +40,6 @@ export default function Page() {
     }
   }, [])
 
-  // ------
-
   const fetchSwitches = async () => {
     try {
       const records = await pb
@@ -50,7 +48,7 @@ export default function Page() {
           sort: 'name',
         })
       setSwitches(records as ExternalSwitch[])
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
     }
   }
