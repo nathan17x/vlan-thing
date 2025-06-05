@@ -11,7 +11,9 @@ export default function TopNav() {
         <Image
           src="/gcv.png"
           alt="gcv"
-          className="size-12 hover:cursor-pointer"
+          className="hover:cursor-pointer"
+          width={40}
+          height={40}
         />
         <h1 className="font-bold text-2xl">
           GCV Centennial
