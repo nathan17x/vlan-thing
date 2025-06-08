@@ -1,4 +1,4 @@
 import PocketBase from "pocketbase";
-export const pb = new PocketBase("http://localhost:8080");
+export const pb = new PocketBase(process.env.PB_URL);
 pb.autoCancellation(false)
 
