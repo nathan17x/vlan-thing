@@ -1,24 +1,24 @@
 services:
-  client:
-    container_name: vlan-thing-v3-client
-    build: 
-      context: ./client
-    environment:
-      NODE_ENV: production
-    ports:
-      - "3000:3000"
-  pb:
-    container_name: vtv3-pb
-    build:
-      context: ./pb
-    ports: 
-      - "8080:8080"
-    volumes:
-      - ./pb/data:/pb/pb_data
+  # client:
+  #   container_name: vlan-thing-v3-client
+  #   build: 
+  #     context: ./client
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - "3000:3000"
+  # pb:
+  #   container_name: vtv3-pb
+  #   build:
+  #     context: ./pb
+  #   ports: 
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./pb/data:/pb/pb_data
   snmp-server:
     container_name: snmp-server
     build: 
       context: ./snmp-server
     ports:
-      - "162:162"
+      - "7778:7778"
 
