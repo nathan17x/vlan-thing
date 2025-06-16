@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const options = {
-  port: 162,
+  port: 7778,
   disableAuthorization: false,
   includeAuthentication: false,
   accessControlModelType: snmp.AccessControlModelType.None,
