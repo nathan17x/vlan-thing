@@ -7,14 +7,14 @@ services:
   #     NODE_ENV: production
   #   ports:
   #     - "3000:3000"
-  # pb:
-  #   container_name: vtv3-pb
-  #   build:
-  #     context: ./pb
-  #   ports: 
-  #     - "8080:8080"
-  #   volumes:
-  #     - ./pb/data:/pb/pb_data
+  pb:
+    container_name: vtv3-pb
+    build:
+      context: ./pb
+    ports: 
+      - "7777:8080"
+    volumes:
+      - ./pb/data:/pb/pb_data
   snmp-server:
     container_name: snmp-server
     build: 
