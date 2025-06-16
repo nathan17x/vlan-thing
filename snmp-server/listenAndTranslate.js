@@ -3,7 +3,7 @@ import { execSync } from 'child_process'
 import chalk from 'chalk';
 
 const options = {
-  port: 162,
+  port: 7778,
   disableAuthorization: false,
   includeAuthentication: false,
   accessControlModelType: snmp.AccessControlModelType.None,

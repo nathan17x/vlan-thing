@@ -6,12 +6,16 @@ import dotenv from 'dotenv';
 
 dotenv.config()
 
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+});
+
 const options = {
   port: 7778,
-  disableAuthorization: false,
+  disableAuthorization: true,
   includeAuthentication: false,
   accessControlModelType: snmp.AccessControlModelType.None,
-  address: null,
+  address: "0.0.0.0",
   transport: "udp4",
   communities: ["public"]
 };
