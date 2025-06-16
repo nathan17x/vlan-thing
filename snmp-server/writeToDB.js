@@ -7,7 +7,7 @@ export default async function writeToDB(ciscoPollResult){
   
   try {
     const searchResult = await pb.collection('external_switches')
-      .getFirstListItem(`ip_address="${ciscoPollResult.address}"`)
+      .getFirstListItem(`ip_address="${ciscoPollResult.address}"`).catch()
 
     const edge_port_update = ciscoPollResult
       .ifTable
@@ -35,7 +35,7 @@ export async function setSwitchDown(switch_address){
   try {   
     const pb = new PocketBase(process.env.PB_URL);
     const searchResult = await pb.collection('external_switches')
-      .getFirstListItem(`ip_address="${switch_address}"`)
+      .getFirstListItem(`ip_address="${switch_address}"`).catch()
     pb.collection('external_switches').update(searchResult.id, {
         switch_up: false,
       })
@@ -49,7 +49,7 @@ export async function setSwitchUp(switch_address){
   try {   
     const pb = new PocketBase(process.env.PB_URL);
     const searchResult = await pb.collection('external_switches')
-      .getFirstListItem(`ip_address="${switch_address}"`)
+      .getFirstListItem(`ip_address="${switch_address}"`).catch()
     pb.collection('external_switches').update(searchResult.id, {
         switch_up: true,
       })

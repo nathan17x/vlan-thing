@@ -1,7 +1,7 @@
 services:
   # client:
   #   container_name: vlan-thing-v3-client
-  #   build: 
+  #   build:
   #     context: ./client
   #   environment:
   #     NODE_ENV: production
@@ -11,14 +11,27 @@ services:
     container_name: vtv3-pb
     build:
       context: ./pb
+<<<<<<< HEAD
     ports: 
       - "7777:8080"
+=======
+    ports:
+      - "8080:8080"
+>>>>>>> d297077aef4786e6173a1d5bcd4e2800ac0f4604
     volumes:
       - ./pb/data:/pb/pb_data
   snmp-server:
     container_name: snmp-server
-    build: 
+    build:
       context: ./snmp-server
-    ports:
-      - "7778:7778"
+    networks:
+      transparent-net:
+        ipv4_address: 10.62.1.199
 
+networks:
+  transparent-net:
+    driver: transparent
+    ipam:
+      config:
+        - subnet: 10.62.1.0/24
+          gateway: 10.62.1.1
