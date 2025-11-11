@@ -1,6 +1,0 @@
-/// <reference path="../data/types.d.ts" />
-migrate((app) => {
-  // add up queries...
-}, (app) => {
-  // add down queries...
-})

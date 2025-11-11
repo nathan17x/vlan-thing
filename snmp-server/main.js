@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import pollCisco from './pollCisco.js';
 import writeToDB, { setSwitchDown, setSwitchUp } from './writeToDB.js';
 import dotenv from 'dotenv';
+import PocketBase from "pocketbase";
 
 dotenv.config()
 
@@ -11,7 +12,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 const options = {
-  port: 7778,
+  port: 7779,
   disableAuthorization: true,
   includeAuthentication: false,
   accessControlModelType: snmp.AccessControlModelType.None,
@@ -36,7 +37,6 @@ const callback = function (error, notification) {
     } else {
       console.log(`${deviceAddress} - Received something else`)
     }
-    resetSwitchDownTimer(notification.rinfo.address)
     setSwitchUp(notification.rinfo.address)
   }
 };
@@ -48,8 +48,6 @@ const authorizer = receiver.getAuthorizer();
 authorizer.addCommunity("public")
 
 console.log("Listening for traps... ")
-
-const switchDownTimers = {};
 
 function isCiscoLinkTrap(notification){
   if (notification.pdu.type !== 167) return false;
@@ -79,9 +77,14 @@ async function pollDeviceAndWriteToDB(deviceAddress){
   writeToDB(ciscoPollResult)
 }
 
+async function checkForDownSwitches(){
+  console.log('checking for down switches')
+  const pb = new PocketBase(process.env.PB_URL);
+  const all_switches = await pb.collection('external_switches').getList();
+  for (let item of all_switches){
 
-async function resetSwitchDownTimer(switch_address) {
-  if (switchDownTimers[switch_address]) clearTimeout(switchDownTimers[switch_address]);
-  switchDownTimers[switch_address] = setTimeout(() => setSwitchDown(switch_address), 60 * 1000);
+  }
 }
+
+setInterval(checkForDownSwitches, 20000)
 

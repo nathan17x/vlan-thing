@@ -5,29 +5,35 @@ export default async function writeToDB(ciscoPollResult){
   console.log(`Writing to pocketbase at ${process.env.PB_URL}`)
   const pb = new PocketBase(process.env.PB_URL);
   
-  try {
-    const searchResult = await pb.collection('external_switches')
-      .getFirstListItem(`ip_address="${ciscoPollResult.address}"`).catch()
+  const searchResult = await pb.collection('external_switches')
+    .getFirstListItem(`ip_address="${ciscoPollResult.address}"`).catch(()=>{return null})
 
+  if (searchResult){
     const edge_port_update = ciscoPollResult
       .ifTable
       .filter(item =>
         searchResult.edge_port_assignment.includes(item.port_number)
       )
+
     const uplink_port_update = ciscoPollResult
       .ifTable
       .filter(item =>
         searchResult.uplink_port_assignment.includes(item.port_number)
-      )    
-    pb.collection('external_switches').update(searchResult.id, {
-        edge_ports: edge_port_update,
-        uplink_ports: uplink_port_update,
-        switch_up: true,
-      })
+      )
 
-  } catch (err) {
-    console.log(chalk.red("Ayo wtf"))
-    console.error(err)
+    pb.collection('external_switches').update(searchResult.id, {
+      edge_ports: edge_port_update,
+      uplink_ports: uplink_port_update,
+      switch_up: true,
+    })
+
+  } else {
+    pb.collection('external_switches').create({
+      name: `Unknown Device @ ${ciscoPollResult.address}`,
+      ip_address: `${ciscoPollResult.address}`,
+      edge_ports: ciscoPollResult.ifTable,
+      switch_up: true,
+    })
   }
 }
 
@@ -40,7 +46,7 @@ export async function setSwitchDown(switch_address){
         switch_up: false,
       })
   } catch (err) {
-    console.log(chalk.red("Ayo wtffff"))
+    console.log(chalk.red(`error while changing switch ${switch_address} status to down`))
     console.error(err)
   }
 }
@@ -54,7 +60,7 @@ export async function setSwitchUp(switch_address){
         switch_up: true,
       })
   } catch (err) {
-    console.log(chalk.red("Ayo wtffff"))
+    console.log(chalk.red(`error while changing switch ${switch_address} status to up`))
     console.error(err)
   }
 }
