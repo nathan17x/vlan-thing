@@ -5,7 +5,9 @@ services:
       context: ./client
     environment:
       NODE_ENV: production
-      NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
+    #   NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
+    env_file:
+      - ./client/.env
     ports:
       - "7777:3000"
   vt-pb:
@@ -21,6 +23,8 @@ services:
       context: ./snmp-server
     environment:
       NODE_ENV: production
-      PB_URL: http://localhost:7778
       POLL_INTERVAL: 60000
+      # PB_URL: http://localhost:7778
+    env_file:
+      - ./snmp-server/.env
     network_mode: "host"
