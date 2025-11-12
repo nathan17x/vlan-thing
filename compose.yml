@@ -18,7 +18,7 @@ services:
       - ./pb/data:/pb/pb_data
   vt-snmp-server:
     build:
-      context: .
+      context: ./snmp-server
     environment:
       NODE_ENV: production
       PB_URL: http://localhost:7778
