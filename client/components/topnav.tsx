@@ -9,14 +9,14 @@ export default function TopNav() {
     <div className="w-full flex flex-row p-2 items-center gap-2">
       <Link href="/" className="flex flex-row items-center gap-2">
         <Image
-          src="/gcv.png"
-          alt="gcv"
+          src="/logo.png"
+          alt="logo"
           className="hover:cursor-pointer"
           width={40}
           height={40}
         />
         <h1 className="font-bold text-2xl">
-          GCV Centennial
+          {process.env.NEXT_PUBLIC_PAGE_TITLE ?? "External Switch Status" }
         </h1>
       </Link>
       <b className="flex-1"></b>

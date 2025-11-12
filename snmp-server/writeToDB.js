@@ -29,7 +29,7 @@ export default async function writeToDB(ciscoPollResult){
 
   } else {
     pb.collection('external_switches').create({
-      name: `Unknown Device @ ${ciscoPollResult.address}`,
+      name: `unknown_switch@${ciscoPollResult.address}`,
       ip_address: `${ciscoPollResult.address}`,
       edge_ports: ciscoPollResult.ifTable,
       switch_up: true,

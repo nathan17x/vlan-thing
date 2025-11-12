@@ -11,6 +11,7 @@ import { RecordModel } from "pocketbase";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { Activity } from "@/components/animate-ui/icons/activity";
 
 export default function Page() {
   const params = useParams<{ switch_name: string; }>();
@@ -58,7 +59,7 @@ export default function Page() {
               Return
             </Link>
           </Button>
-          {externalSwitch?.name} is down :(
+          {externalSwitch?.name} is not connected.
         </div>
       </div>
     )
@@ -72,9 +73,10 @@ export default function Page() {
             <h2 className="font-bold text-3xl">
               {params.switch_name}
             </h2>
-            <p className="text-2xl">
+            <p className="text-2xl pb-3">
               {externalSwitch?.description}
             </p>
+            <Activity animate animation="default" loop loopDelay={5000} color="green"/>
           </div>
           <div className="">
             <UplinkDetail uplinkPorts={externalSwitch?.uplink_ports ?? []}/>

@@ -6,9 +6,9 @@ function getOidValue(session, oid) {
   return new Promise((resolve, reject) => {
     session.get([oid], (error, varbinds) => {
       if (error) {
-        resolve("Error1");
+        resolve("Error");
       } else if (snmp.isVarbindError(varbinds[0])) {
-        resolve("Error2")
+        resolve("Error")
       } else {
         if (Buffer.isBuffer(varbinds[0].value)){
           resolve(varbinds[0].value.toString("utf-8"))

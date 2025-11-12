@@ -78,13 +78,13 @@ async function pollDeviceAndWriteToDB(deviceAddress){
 }
 
 async function checkForDownSwitches(){
-  console.log('checking for down switches')
+  console.log('Polling all switches...')
   const pb = new PocketBase(process.env.PB_URL);
   const all_switches = await pb.collection('external_switches').getList();
-  for (let item of all_switches){
-
+  for (let item of all_switches.items){
+    pollDeviceAndWriteToDB(item.ip_address)
   }
 }
 
-setInterval(checkForDownSwitches, 20000)
+setInterval(checkForDownSwitches, process.env.POLL_INTERVAL)
 
