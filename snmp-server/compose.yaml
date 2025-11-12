@@ -1,17 +1,9 @@
 services:
-  server:
+  snmp-server:
     build:
       context: .
     environment:
       NODE_ENV: production
       PB_URL: http://localhost:7778
       POLL_INTERVAL: 60000
-    # Use 'host' networking to bypass Docker's NAT.
-    # This shares the host's network stack directly with the container,
-    # preserving the original source IP of incoming packets.
     network_mode: "host"
-    # The 'ports' section is not needed when using network_mode: "host"
-    # as the container binds directly to the host's ports.
-    # The service will be available on 10.49.1.197:7779.
-
-# The 'networks' section is not used.

@@ -1,13 +1,13 @@
 services:
-  # vt-client:
-  #   container_name: vt-client
-  #   build:
-  #     context: ./client
-  #   environment:
-  #     NODE_ENV: production
-  #     NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
-  #   ports:
-  #     - "7777:3000"
+  vt-client:
+    container_name: vt-client
+    build:
+      context: ./client
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
+    ports:
+      - "7777:3000"
   vt-pb:
     container_name: vt-pb
     build:
@@ -16,10 +16,11 @@ services:
       - "7778:8080"
     volumes:
       - ./pb/data:/pb/pb_data
-  # vt-snmp-server:
-  #   container_name: vt-snmp-server
-  #   ports: 
-  #     - "7779:162"
-  #     - "7779:162/udp"
-  #   build:
-  #     context: ./snmp-server
+  vt-snmp-server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      PB_URL: http://localhost:7778
+      POLL_INTERVAL: 60000
+    network_mode: "host"
