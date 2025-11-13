@@ -3,9 +3,11 @@ services:
     container_name: vt-client
     build:
       context: ./client
+      args:
+        - NEXT_PUBLIC_PB_URL=http://{THIS DEVICE IP}:7778 # Change me
     environment:
       NODE_ENV: production
-      NEXT_PUBLIC_PB_URL: 'http://{THIS DEVICE IP}:7778'  # Change me
+      NEXT_PUBLIC_PB_URL: 'http://{THIS DEVICE IP}:7778'  # Also change me
       NEXT_PUBLIC_PAGE_TITLE: "Network Switch Status"     # Set your own title
     ports:
       - "7777:3000" # Default port for the client is 7777
