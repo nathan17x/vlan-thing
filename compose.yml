@@ -8,6 +8,8 @@ services:
     #   NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
     env_file:
       - ./client/.env
+    volumes:
+      - ./client-public:/usr/src/app/public
     ports:
       - "7777:3000"
   vt-pb:

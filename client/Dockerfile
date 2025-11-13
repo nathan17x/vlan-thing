@@ -46,6 +46,11 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+ARG NEXT_PUBLIC_PB_URL
+# 2. Expose it as an environment variable for the *next command*
+ENV NEXT_PUBLIC_PB_URL=$NEXT_PUBLIC_PB_URL
+
 # Run the build script.
 RUN pnpm run build
 
@@ -55,7 +60,7 @@ RUN pnpm run build
 FROM base AS final
 
 # Use production node environment by default.
-ENV NODE_ENV="production"
+# ENV NODE_ENV="production"
 
 # Run the application as a non-root user.
 USER node

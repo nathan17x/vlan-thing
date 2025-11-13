@@ -86,5 +86,5 @@ async function checkForDownSwitches(){
   }
 }
 
-setInterval(checkForDownSwitches, process.env.POLL_INTERVAL)
+setInterval(checkForDownSwitches, process.env.POLL_INTERVAL ?? 60000)
 

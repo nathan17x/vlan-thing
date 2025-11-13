@@ -1,5 +1,6 @@
 "use client"
 
+
 import { useParams } from "next/navigation"
 import SwitchGraphicSmall from "./switch-graphic-small";
 import SwitchPortAssignments from "./switch-port-assignments";
@@ -14,6 +15,7 @@ import { ArrowLeft } from "lucide-react";
 import { Activity } from "@/components/animate-ui/icons/activity";
 
 export default function Page() {
+  console.log("CLIENT-SIDE URL:", process.env.NEXT_PUBLIC_PB_URL);
   const params = useParams<{ switch_name: string; }>();
   const [externalSwitch, setExternalSwitch] = useState<ExternalSwitch | null>(null);
 
