@@ -5,13 +5,10 @@ services:
       context: ./client
     environment:
       NODE_ENV: production
-    #   NEXT_PUBLIC_PB_URL: 'http://0.0.0.0:7778'
-    env_file:
-      - ./client/.env
-    volumes:
-      - ./client-public:/usr/src/app/public
+      NEXT_PUBLIC_PB_URL: 'http://{THIS DEVICE IP}:7778'  # Change me
+      NEXT_PUBLIC_PAGE_TITLE: "Network Switch Status"     # Set your own title
     ports:
-      - "7777:3000"
+      - "7777:3000" # Default port for the client is 7777
   vt-pb:
     container_name: vt-pb
     build:
@@ -19,14 +16,17 @@ services:
     ports:
       - "7778:8080"
     volumes:
-      - ./pb/data:/pb/pb_data
+      - ./pb/data:/pb/pb_data # This is where Pocketbase will store its data. Save this folder off if you need to migrate to another instance
+    
+# The SNMP server will only work correctly in Docker for Linux. 
+# If you need to use Docker for Windows, you will have to run the SNMP server in Node outside the container
+# See the README for details
   vt-snmp-server:
     build:
       context: ./snmp-server
     environment:
       NODE_ENV: production
-      POLL_INTERVAL: 60000
-      # PB_URL: http://localhost:7778
-    env_file:
-      - ./snmp-server/.env
-    network_mode: "host"
+      POLL_INTERVAL: 60000 # Interval in ms for which to check all known switches (to find ones which have disconnected) Default: 1 minute
+      PB_URL: http://localhost:7778 # Since the container uses host mode, this will access the instance of Pocketbase running in the other container
+    network_mode: "host" 
+    

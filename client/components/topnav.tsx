@@ -9,7 +9,7 @@ export default function TopNav() {
     <div className="w-full flex flex-row p-2 items-center gap-2">
       <Link href="/" className="flex flex-row items-center gap-2">
         <Image
-          src="/logo.png"
+          src="/logo.svg"
           alt="logo"
           className="hover:cursor-pointer"
           width={40}
