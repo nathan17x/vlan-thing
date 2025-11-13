@@ -7,6 +7,7 @@ import { ExternalSwitch } from "@/lib/global";
 import { CircleCheck, CircleX } from "lucide-react";
 
 export default function Page() {
+  console.log("DB URL: ", process.env.NEXT_PUBLIC_PB_URL)
   const [switches, setSwitches] = useState<ExternalSwitch[]>([]);
 
   useEffect(() => {
