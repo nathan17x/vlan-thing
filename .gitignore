@@ -2,7 +2,7 @@
 .env
 
 # local compose file
-compose.yml
+./compose.yml
 
 # PocketBase
 pb/data/
