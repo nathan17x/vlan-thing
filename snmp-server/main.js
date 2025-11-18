@@ -73,8 +73,13 @@ function isCiscoConfigWriteTrap(notification){
 
 async function pollDeviceAndWriteToDB(deviceAddress){
   console.log(`Polling ${deviceAddress}... `)
-  const ciscoPollResult = await pollCisco(deviceAddress, "public")
-  writeToDB(ciscoPollResult)
+  try{
+    const ciscoPollResult = await pollCisco(deviceAddress, "public")
+    writeToDB(ciscoPollResult)
+  } catch {
+    console.log('%%%%%%%%%%%%%')
+    setSwitchDown(deviceAddress)
+  }
 }
 
 async function checkForDownSwitches(){
@@ -82,13 +87,12 @@ async function checkForDownSwitches(){
   const pb = new PocketBase(process.env.PB_URL);
   const all_switches = await pb.collection('external_switches').getList();
   for (let item of all_switches.items){
-    try {
-      pollDeviceAndWriteToDB(item.ip_address)
-    } catch {
-      setSwitchDown(item.ip_address)
-    }
+    console.log('trying ', item.ip_address)
+    await pollDeviceAndWriteToDB(item.ip_address)
   }
 }
+
+checkForDownSwitches()
 
 setInterval(checkForDownSwitches, process.env.POLL_INTERVAL ?? 60000)
 

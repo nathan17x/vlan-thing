@@ -2,7 +2,7 @@ import chalk from "chalk";
 import PocketBase from "pocketbase";
 
 export default async function writeToDB(ciscoPollResult){
-  console.log(`Writing to pocketbase at ${process.env.PB_URL}`)
+  console.log(`Received result from ${ciscoPollResult.address} - Writing result of poll to pocketbase at ${process.env.PB_URL}`)
   const pb = new PocketBase(process.env.PB_URL);
   
   const searchResult = await pb.collection('external_switches')
@@ -45,6 +45,7 @@ export async function setSwitchDown(switch_address){
     pb.collection('external_switches').update(searchResult.id, {
         switch_up: false,
       })
+    console.log(`Set switch ${switch_address} down`)
   } catch (err) {
     console.log(chalk.red(`error while changing switch ${switch_address} status to down`))
     console.error(err)
