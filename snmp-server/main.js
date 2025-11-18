@@ -82,7 +82,11 @@ async function checkForDownSwitches(){
   const pb = new PocketBase(process.env.PB_URL);
   const all_switches = await pb.collection('external_switches').getList();
   for (let item of all_switches.items){
-    pollDeviceAndWriteToDB(item.ip_address)
+    try {
+      pollDeviceAndWriteToDB(item.ip_address)
+    } catch {
+      setSwitchDown(item.ip_address)
+    }
   }
 }
 
