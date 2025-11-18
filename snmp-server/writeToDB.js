@@ -9,23 +9,28 @@ export default async function writeToDB(ciscoPollResult){
     .getFirstListItem(`ip_address="${ciscoPollResult.address}"`).catch(()=>{return null})
 
   if (searchResult){
-    const edge_port_update = ciscoPollResult
-      .ifTable
-      .filter(item =>
-        searchResult.edge_port_assignment.includes(item.port_number)
-      )
-
-    const uplink_port_update = ciscoPollResult
-      .ifTable
-      .filter(item =>
-        searchResult.uplink_port_assignment.includes(item.port_number)
-      )
-
-    pb.collection('external_switches').update(searchResult.id, {
-      edge_ports: edge_port_update,
-      uplink_ports: uplink_port_update,
-      switch_up: true,
-    })
+    try {
+      const edge_port_update = ciscoPollResult
+        .ifTable
+        .filter(item =>
+          searchResult.edge_port_assignment.includes(item.port_number)
+        )
+  
+      const uplink_port_update = ciscoPollResult
+        .ifTable
+        .filter(item =>
+          searchResult.uplink_port_assignment.includes(item.port_number)
+        )
+  
+      pb.collection('external_switches').update(searchResult.id, {
+        edge_ports: edge_port_update,
+        uplink_ports: uplink_port_update,
+        switch_up: true,
+      })
+    } catch (error) {
+      console.error(error)
+      setSwitchDown(searchResult.ip_address)
+    }
 
   } else {
     pb.collection('external_switches').create({
