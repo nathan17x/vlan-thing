@@ -1,6 +1,9 @@
 # secrets
 .env
 
+# local compose file
+compose.yml
+
 # PocketBase
 pb/data/
 
