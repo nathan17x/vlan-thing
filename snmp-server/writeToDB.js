@@ -2,7 +2,7 @@ import chalk from "chalk";
 import PocketBase from "pocketbase";
 
 export default async function writeToDB(ciscoPollResult){
-  console.log(`Received result from ${ciscoPollResult.address} - Writing result of poll to pocketbase at ${process.env.PB_URL}`)
+  console.log(`Successful SNMP poll from ${ciscoPollResult.address}. Writing result to pocketbase at ${process.env.PB_URL}`)
   const pb = new PocketBase(process.env.PB_URL);
   
   const searchResult = await pb.collection('external_switches')
