@@ -28,6 +28,7 @@ export default async function writeToDB(ciscoPollResult){
         switch_up: true,
       })
     } catch (error) {
+      console.log('Something went wrong while trying to parse the SNMP poll result:')
       console.error(error)
       setSwitchDown(searchResult.ip_address)
     }
