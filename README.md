@@ -17,4 +17,8 @@ Realtime VLAN assignment and port status webpage for Cisco switches using SNMP l
 `docker compose up --build -d`
 
 ## Notes
-1. 
+- The SNMP server will only work correctly in Docker for Linux.
+- If you need to use Docker for Windows, you will have to run the SNMP server in Node outside the container
+`node ./snmp-server/main.js`
+
+- You would need to start that every time or schedule a Node process. Usually better to install this on linux but that has pitfalls too. 
